@@ -9,10 +9,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(logger("combined"));
 
-app.get("/", (req, res) => {
-  res.status(404).send({
-    error: "This route does not exist.",
-  });
-});
+// Helper functions
+
+// app.get("/", (req, res) => {
+//   res.status(404).send({
+//     error: "This route does not exist.",
+//   });
+// });
 
 export default app;
