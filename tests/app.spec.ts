@@ -1,8 +1,7 @@
-import { response } from "express";
 import request, { Response } from "supertest";
 import mockRequest from "../mocks/mockRequest";
 import app from "../src/app";
-import { ReducedShow } from "../src/types";
+import { IResponseShow } from "../src/types";
 
 describe("GET /", () => {
   test("Should respond 404 to GET /", async () => {
@@ -25,7 +24,7 @@ describe("POST / with shows payload", () => {
   test("Matches expected structure", async () => {
     const response = await request(app).post("/").send(mockRequest);
     const shows = response.body?.response;
-    shows.forEach((show: ReducedShow) => {
+    shows.forEach((show: IResponseShow) => {
       expect(show).toHaveProperty("image");
       expect(show).toHaveProperty("slug");
       expect(show).toHaveProperty("title");

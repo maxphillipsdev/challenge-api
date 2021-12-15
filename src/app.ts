@@ -1,6 +1,6 @@
 import express, { json, NextFunction, Request, Response } from "express";
 import logger from "morgan";
-import { ReducedShow, Show } from "./types";
+import { IResponseShow, IRequestShow } from "./types";
 
 // Create Express app
 const app = express();
@@ -21,7 +21,7 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 // Helper function to filter the payload
-const filterPayload = (body: { payload: Show[] }) => {
+const filterPayload = (body: { payload: IRequestShow[] }) => {
   // Extract the payload
   const payload = body.payload;
 
@@ -30,19 +30,20 @@ const filterPayload = (body: { payload: Show[] }) => {
     return show.drm === true && show.episodeCount > 0;
   });
 
-  const reducedPayload: ReducedShow[] = [];
+  // Create the reduced array of shows
+  const result: IResponseShow[] = [];
   filteredPayload.forEach((show) => {
-    reducedPayload.push({
+    result.push({
       image: show["image"]["showImage"],
       slug: show["slug"],
       title: show["title"],
     });
   });
 
-  return reducedPayload;
+  return result;
 };
 
-app.post("/", (req, res) => {
+app.post("/", (req: Request, res: Response) => {
   // Try to filter the JSON
   try {
     const body = req.body;

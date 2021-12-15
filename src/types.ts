@@ -1,4 +1,7 @@
-export interface Show {
+/**
+ * Interface for basic structure of a Show in the request payload.
+ */
+export interface IRequestShow {
   title: string;
   drm: boolean;
   episodeCount: Number;
@@ -8,7 +11,10 @@ export interface Show {
   };
 }
 
-export interface ReducedShow {
+/**
+ * Interface for the basic structure of a Show in the response.
+ */
+export interface IResponseShow {
   title: string;
   slug: string;
   image: string;
