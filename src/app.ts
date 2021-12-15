@@ -1,4 +1,3 @@
-import bodyParser from "body-parser";
 import express from "express";
 import logger from "morgan";
 import { ReducedShow, Show } from "./types";
@@ -7,8 +6,6 @@ import { ReducedShow, Show } from "./types";
 const app = express();
 
 // Initialize middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger("combined"));
 
 // Helper function to filter the payload
@@ -35,8 +32,8 @@ const filterPayload = (body: { payload: Show[] }) => {
 
 app.post("/", (req, res) => {
   try {
-    const result = req.body;
-    res.status(200).json({ response: filterPayload(result) });
+    const body = req.body;
+    res.status(200).json({ response: filterPayload(body) });
   } catch {
     res
       .status(400)
