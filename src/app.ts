@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json, NextFunction, Request, Response } from "express";
 import logger from "morgan";
 import { ReducedShow, Show } from "./types";
 
@@ -7,6 +7,18 @@ const app = express();
 
 // Initialize middleware
 app.use(logger("combined"));
+app.use(json());
+
+// Catch malformed json
+app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  if (error) {
+    res
+      .status(400)
+      .send({ error: "Could not decode request: JSON parsing failed" });
+  } else {
+    next();
+  }
+});
 
 // Helper function to filter the payload
 const filterPayload = (body: { payload: Show[] }) => {
@@ -31,9 +43,11 @@ const filterPayload = (body: { payload: Show[] }) => {
 };
 
 app.post("/", (req, res) => {
+  // Try to filter the JSON
   try {
     const body = req.body;
     res.status(200).json({ response: filterPayload(body) });
+    // Catch any errors
   } catch {
     res
       .status(400)
