@@ -1,4 +1,4 @@
-import request, { Response } from "supertest";
+import request from "supertest";
 import mockRequest from "../mocks/mockRequest";
 import app from "../src/app";
 import { IResponseShow } from "../src/types";
